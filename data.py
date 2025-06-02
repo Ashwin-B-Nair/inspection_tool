@@ -12,7 +12,20 @@ os.makedirs('pcd', exist_ok=True)
 # Configure RealSense pipeline
 pipeline = rs.pipeline()
 config = rs.config()
-config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
+
+"""
+Config Parameters
+
+config.enable_stream(
+    stream_type,   # e.g., rs.stream.depth or rs.stream.color
+    width,         # image width in pixels
+    height,        # image height in pixels
+    format,        # pixel format (e.g., z16, bgr8)
+    framerate      # frames per second (fps)
+)
+
+""" 
+config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)  # can increase resolution if needed
 config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
 # Start pipeline
@@ -48,9 +61,25 @@ try:
         vtx = np.asanyarray(points.get_vertices()).view(np.float32).reshape(-1, 3)
         tex = np.asanyarray(points.get_texture_coordinates()).view(np.float32).reshape(-1, 2)
 
+        # Get color image as float in [0, 1] for Open3D
+        color_image_float = color_image.astype(np.float32) / 255.0
+        h, w, _ = color_image.shape
+
+        # Map texture coords (u,v) to pixel indices (x,y)
+        u = tex[:, 0] * w
+        v = tex[:, 1] * h
+
+        # Clamp values to image bounds
+        u = np.clip(u, 0, w - 1).astype(np.int32)
+        v = np.clip(v, 0, h - 1).astype(np.int32)
+
+        # Get RGB color for each vertex
+        colors = color_image_float[v, u]  # Shape: (N, 3)
+
         # Save as Open3D point cloud
         pcd = o3d.geometry.PointCloud()
         pcd.points = o3d.utility.Vector3dVector(vtx)
+        pcd.colors = o3d.utility.Vector3dVector(colors)
         o3d.io.write_point_cloud(f'pcd/frame_{i:03d}.ply', pcd)
 
 finally:
