@@ -119,7 +119,7 @@ align = rs.align(rs.stream.color)
 #------------------------------------------------------------------------
 # Capture loop - automated
 num_frames = 10           # Number of frames to capture
-interval_sec = 2          # Interval between frames in seconds (change as needed)
+interval_sec = 1          # Interval between frames in seconds (change as needed)
 
 try:
     for i in range(num_frames):
