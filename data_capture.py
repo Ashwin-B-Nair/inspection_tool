@@ -54,7 +54,7 @@ def save_frames(color_image, depth_image, frame_counter):
     depth_path = f'C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/depth/depth_{frame_counter:03d}.npy'
     cv2.imwrite(rgb_path, color_image)
     np.save(depth_path, depth_image)
-    print(f"Saved {rgb_path} and {depth_path}")
+    print(f"Saved rgb {frame_counter} and depth {frame_counter}")
 
 try:
     if args.mode == 'auto':
