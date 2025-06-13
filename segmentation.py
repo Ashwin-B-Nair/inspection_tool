@@ -17,15 +17,15 @@ mask_generator = SamAutomaticMaskGenerator(sam)
 def show_anns(anns):
     if len(anns) == 0:
         return
-    sorted_anns = sorted(anns, key=(lambda x: x['area']), reverse=True)
+    sorted_anns = sorted(anns, key=(lambda x: x['area']), reverse=True)   #sort in descending order
     ax = plt.gca()
     ax.set_autoscale_on(False)
 
-    img = np.ones((sorted_anns[0]['segmentation'].shape[0], sorted_anns[0]['segmentation'].shape[1], 4))
-    img[:,:,3] = 0
+    img = np.ones((sorted_anns[0]['segmentation'].shape[0], sorted_anns[0]['segmentation'].shape[1], 4))  # Creating a transparent overlay ( size: H x W x 4 rgba channels)
+    img[:,:,3] = 0   # alpha = 0: fully transparent
     for ann in sorted_anns:
         m = ann['segmentation']
-        color_mask = np.concatenate([np.random.random(3), [0.35]])
+        color_mask = np.concatenate([np.random.random(3), [0.35]])  # random color - semi transparent
         img[m] = color_mask
     ax.imshow(img)
     
