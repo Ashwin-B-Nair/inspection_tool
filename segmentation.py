@@ -33,11 +33,39 @@ def show_anns(anns):
 img = cv2.imread("C:/Users/ashwi/Desktop/rgb_028.png")
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-# Generate masks
-masks = mask_generator.generate(img_rgb)
+#Automatic Mask Generation - Default Params
 
+masks = mask_generator.generate(img_rgb)
 plt.figure(figsize=(20,20))
 plt.imshow(img_rgb)
 show_anns(masks)
+plt.axis('off')
+plt.show() 
+
+#Automatic Mask Generation - Modified Params
+
+''' 
+Parameters and their function:
+1. points_per_side = 32: Controls the density of initial prompt points across the image. ( creates a 32 x 32 grid and generates masks @ each grid point)
+2. pred_iou_thresh=0.86: Masks with predicted IoU < 0.86 are discarded.
+3. stability_score_thresh=0.92: Masks with stability score < 0.92 are discarded.
+4. crop_n_layers=1:  1 = No multi-scale processing (single pass). Higher values → crops image into smaller tiles at multiple scales.
+5. crop_n_points_downscale_factor=2:  Reduces point density in subsequent crop layers. If crop_n_layers>1, each layer uses points_per_side/(2^layer).
+6. min_mask_region_area=100: Uses OpenCV to filter masks smaller than 100 pixels.
+'''
+
+mask_generator_2 = SamAutomaticMaskGenerator(
+    model=sam,
+    points_per_side=32,
+    pred_iou_thresh=0.86,
+    stability_score_thresh=0.92,
+    crop_n_layers=1,
+    crop_n_points_downscale_factor=2,
+    min_mask_region_area=100,  
+)
+masks2 = mask_generator_2.generate(img_rgb)
+plt.figure(figsize=(20,20))
+plt.imshow(img_rgb)
+show_anns(masks2)
 plt.axis('off')
 plt.show() 
