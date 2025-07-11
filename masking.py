@@ -17,7 +17,7 @@ def detect_delamination_and_create_mask(image_path, output_path):
     dark_mask = cv2.inRange(hsv, lower_dark, upper_dark)
     
     # Method 2: Grayscale thresholding for additional detection
-    _, thresh_mask = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY_INV)
+    _, thresh_mask = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV)
     
     # Combine both masks
     # combined_mask = cv2.bitwise_or(dark_mask, thresh_mask)
@@ -55,7 +55,7 @@ def detect_delamination_and_create_mask(image_path, output_path):
 
 
 
-result, mask = detect_delamination_and_create_mask("C:/Users/ashwi/Desktop/rgb_028.png", 'C:/Users/ashwi/Desktop/output.jpg')
+result, mask = detect_delamination_and_create_mask("C:/Users/ashwi/Desktop/rgb_000.png", 'C:/Users/ashwi/Desktop/rgb_000_masking.jpg')
 cv2.imshow('Delamination Detection', result)
 cv2.imshow('Binary Mask', mask)
 cv2.waitKey(0)

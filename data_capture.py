@@ -20,8 +20,8 @@ parser.add_argument('--fps', type=int, default=5,
 args = parser.parse_args()
     
 # Create folders to save
-os.makedirs('C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/rgb', exist_ok=True)
-os.makedirs('C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/depth', exist_ok=True)
+os.makedirs('C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/prototype1/rgb4', exist_ok=True)
+os.makedirs('C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/prototype1/depth4', exist_ok=True)
 os.makedirs('C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/pcd', exist_ok=True)
 
 # Configure RealSense pipeline
@@ -50,8 +50,8 @@ frame_counter = 0
 
 
 def save_frames(color_image, depth_image, frame_counter):
-    rgb_path = f'C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/rgb/rgb_{frame_counter:03d}.png'
-    depth_path = f'C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/depth/depth_{frame_counter:03d}.npy'
+    rgb_path = f'C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/prototype1/rgb4/rgb_{frame_counter:03d}.png'
+    depth_path = f'C:/Users/ashwi/Documents/CMU/Metrology/Summer RA/inspection_tool/data/prototype1/depth4/depth_{frame_counter:03d}.npy'
     cv2.imwrite(rgb_path, color_image)
     np.save(depth_path, depth_image)
     print(f"Saved rgb {frame_counter} and depth {frame_counter}")
