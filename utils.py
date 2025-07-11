@@ -1,8 +1,10 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
-from PIL import Image
 import os
+import cv2
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+
 
 
 def show_mask(mask, ax, random_color=False):
@@ -96,7 +98,6 @@ def find_bounding_box (image_path):
     else:
         print("No blue contours found")
         return image, None, None, None, None
-    
     
 def detect_defects(predictor, image_path, morph_params = None):
     """Your defect detection logic here"""
